@@ -11,7 +11,7 @@ public class LoftApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             StrictMode.enableDefaults();
             Timber.plant(new DebugTree());
         }
