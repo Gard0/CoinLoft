@@ -1,8 +1,10 @@
-package com.example.coinloft;
+package com.example.coinloft.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.coinloft.R;
 
 public class MainActivity extends AppCompatActivity {
 
