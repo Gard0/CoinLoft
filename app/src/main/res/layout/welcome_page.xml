@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="168dp"
+        android:layout_height="168dp"
+        android:src="@drawable/asset1"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="sans-serif"
+        android:textAppearance="?attr/textAppearanceHeadline2"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        tools:text="Покупка и продажа" />
+
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="10sp"
+        android:lines="3"
+        android:textAppearance="?attr/textAppearanceHeadline4"
+        android:textColor="@color/blue_grey"
+        android:textStyle="normal"
+        tools:text="Покупай когда дешево, продавай когда дорого." />
+
+
+</LinearLayout>

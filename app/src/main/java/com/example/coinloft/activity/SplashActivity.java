@@ -29,7 +29,6 @@ public class SplashActivity extends AppCompatActivity {
             } else {
                 startActivity(new Intent(this, MainActivity.class));
             }
-
         }, DELAY_START_ACTIVITY);
     }
 }

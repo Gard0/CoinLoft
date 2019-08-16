@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">CoinLoft</string>
+    <string name="start">Start Working</string>
+
+    <string name="welcome_page_1_title">Buying and Selling</string>
+    <string name="welcome_page_1_subtitle">Buy when it is cheap &amp; sell when it is expensive.</string>
+    <string name="welcome_page_2_title">Cryptocurrency coefficient</string>
+    <string name="welcome_page_2_subtitle">Follow the exchange rate and respond in time to changes in price dynamics.</string>
+    <string name="welcome_page_3_title">Currency Converter</string>
+    <string name="welcome_page_3_subtitle">Find out how much ether is in one bitcoin.</string>
 </resources>
