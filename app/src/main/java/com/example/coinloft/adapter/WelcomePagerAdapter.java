@@ -17,9 +17,9 @@ import java.util.Objects;
 public class WelcomePagerAdapter extends PagerAdapter {
 
     private static final int[] IMAGES = {
-            R.drawable.asset1,
-            R.drawable.asset2,
-            R.drawable.asset3
+            R.drawable.welcome_1_screen_img,
+            R.drawable.welcome_2_screen_img,
+            R.drawable.welcome_3_screen_img
     };
     private static final int[] TITLE = {
             R.string.welcome_page_1_title,

@@ -10,7 +10,7 @@
         android:id="@+id/image"
         android:layout_width="168dp"
         android:layout_height="168dp"
-        android:src="@drawable/asset1"
+        android:src="@drawable/welcome_1_screen_img"
         tools:ignore="ContentDescription" />
 
     <TextView

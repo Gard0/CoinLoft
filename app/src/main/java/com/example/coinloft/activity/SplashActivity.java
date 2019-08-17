@@ -14,6 +14,7 @@ import com.example.coinloft.R;
 public class SplashActivity extends AppCompatActivity {
 
 
+    public static final String KEY_SHOW_WELCOME_SCREEN = "show_welcome_screen";
     private static final int DELAY_START_ACTIVITY = 2000;
 
     @Override
@@ -24,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
                 .getDefaultSharedPreferences(this);
 
         new Handler().postDelayed(() -> {
-            if (prefs.getBoolean("show_welcome_screen", true)) {
+            if (prefs.getBoolean(KEY_SHOW_WELCOME_SCREEN, true)) {
                 startActivity(new Intent(this, WelcomeActivity.class));
             } else {
                 startActivity(new Intent(this, MainActivity.class));
