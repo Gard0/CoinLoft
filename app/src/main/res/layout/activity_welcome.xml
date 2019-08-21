@@ -13,11 +13,12 @@
 
     </androidx.viewpager.widget.ViewPager>
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/button_start"
+        style="?attr/gradientButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="128dp"
+        android:layout_marginBottom="64dp"
         android:background="@drawable/gradient_golden_yellow"
         android:text="@string/start"
         app:layout_constraintBottom_toBottomOf="parent"

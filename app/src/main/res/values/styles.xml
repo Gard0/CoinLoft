@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!-- Base application theme. -->
@@ -7,31 +8,42 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">?attr/colorPrimary</item>
-        <item name="textAppearanceHeadline1">@style/TextAppearance.H</item>
-        <item name="textAppearanceHeadline2">@style/TextAppearance.H2</item>
-        <item name="textAppearanceHeadline4">@style/TextAppearance.H4</item>
+        <item name="textAppearanceHeadline1">@style/TextAppearance.AppTheme.H1</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.AppTheme.H2</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.AppTheme.H4</item>
+        <item name="bottomNavigationStyle">@style/Widget.AppTheme.BottomNav</item>
+        <item name="gradientButton">@style/Widget.AppTheme.Button</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="TextAppearance.H" parent="TextAppearance.MaterialComponents.Headline1">
-        <item name="fontFamily" />
-        <item name="android:textSize">48sp</item>
+    <style name="TextAppearance.AppTheme.H1" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textSize">36sp</item>
     </style>
 
 
-    <style name="TextAppearance.H2" parent="TextAppearance.MaterialComponents.Headline2">
-        <item name="fontFamily" />
+    <style name="TextAppearance.AppTheme.H2" parent="TextAppearance.MaterialComponents.Headline2">
         <item name="android:textSize">24sp</item>
     </style>
 
-    <style name="TextAppearance.H4" parent="TextAppearance.MaterialComponents.Headline4">
+    <style name="TextAppearance.AppTheme.H4" parent="TextAppearance.MaterialComponents.Headline4">
         <item name="android:textSize">14sp</item>
-
-
     </style>
+
+    <style name="Widget.AppTheme.Button" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/gradient_golden_yellow</item>
+        <item name="android:paddingStart">64dp</item>
+        <item name="android:paddingEnd">64dp</item>
+    </style>
+
+    <style name="Widget.AppTheme.BottomNav" parent="Widget.MaterialComponents.BottomNavigationView.Colored" />
+
+    <declare-styleable name="AppTheme">
+        <attr name="gradientButton" format="reference" />
+        <attr name="walletBackground" format="color|reference" />
+    </declare-styleable>
 </resources>

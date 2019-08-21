@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="111dp" />
+        app:layout_constraintGuide_begin="117dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_right"
@@ -31,26 +31,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="214dp" />
+        app:layout_constraintGuide_end="136dp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="272dp"
+        android:layout_marginBottom="288dp"
         android:src="@drawable/artboard_2"
         app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
         app:layout_constraintEnd_toStartOf="@id/guideline_left"
         tools:ignore="MissingConstraints" />
 
     <ImageView
-        android:layout_width="282dp"
-        android:layout_height="244dp"
+        android:layout_width="365dp"
+        android:layout_height="301dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:src="@drawable/artboard"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guideline_right"
-        app:layout_constraintTop_toTopOf="@+id/label"
+        app:layout_constraintStart_toStartOf="@+id/guideline_right"
+        app:layout_constraintTop_toTopOf="@+id/guideline_bottom"
         tools:ignore="MissingConstraints" />
 
 
@@ -83,11 +82,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
-        android:paddingTop="14dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/app_name"
         android:textAppearance="?attr/textAppearanceHeadline1"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inner_circle" />
+        app:layout_constraintTop_toBottomOf="@id/inner_circle"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
