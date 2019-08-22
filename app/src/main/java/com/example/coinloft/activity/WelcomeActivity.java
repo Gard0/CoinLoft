@@ -20,12 +20,13 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_welcome);
+
         ViewPager mViewPager = findViewById(id.pager);
         mViewPager.setAdapter((new WelcomePagerAdapter(getLayoutInflater())));
+
         TextView mButtonStart = findViewById((id.button_start));
         mButtonStart.setOnClickListener(View -> {
-            final Settings settings = Settings.of(this);
-            settings.doNotShowWelcomeScreenNextTime();
+            Settings.of(View.getContext()).doNotShowWelcomeScreenNextTime();
             final Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
