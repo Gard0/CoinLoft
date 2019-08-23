@@ -9,4 +9,8 @@
     <string name="welcome_page_2_subtitle">Follow the exchange rate and respond in time to changes in price dynamics.</string>
     <string name="welcome_page_3_title">Currency Converter</string>
     <string name="welcome_page_3_subtitle">Find out how much ether is in one bitcoin.</string>
+    <string name="wallets">Wallets</string>
+    <string name="rates">Rates</string>
+    <string name="converter">Converter</string>
+    <string name="add">Add</string>
 </resources>
