@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final MainViewModel viewModel = ViewModelProviders
+        MainViewModel viewModel = ViewModelProviders
                 .of(this)
                 .get(MainViewModel.class);
 
@@ -45,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
             viewModel.submitSelectedId(menuItem.getItemId());
             return true;
         });
-        viewModel.title().observe(this, title -> Objects
+        Objects.requireNonNull(viewModel.title()).observe(this, title -> Objects
                 .requireNonNull(getSupportActionBar())
                 .setTitle(title));
 
-        viewModel.selectedId().observe(this, this::replaceFragment);
-        viewModel.selectedId().observe(this, navigationView::setSelectedItemId);
+        Objects.requireNonNull(viewModel.selectedId()).observe(this, this::replaceFragment);
+        Objects.requireNonNull(viewModel.selectedId()).observe(this, navigationView::setSelectedItemId);
 
 
     }
