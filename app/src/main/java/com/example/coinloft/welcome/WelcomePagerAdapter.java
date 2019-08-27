@@ -1,4 +1,4 @@
-package com.example.coinloft.adapter;
+package com.example.coinloft.welcome;
 
 import android.view.LayoutInflater;
 import android.view.View;

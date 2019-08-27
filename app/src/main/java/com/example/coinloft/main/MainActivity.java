@@ -1,4 +1,4 @@
-package com.example.coinloft.activity;
+package com.example.coinloft.main;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -9,10 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.coinloft.R;
-import com.example.coinloft.fragment.ConverterFragment;
+import com.example.coinloft.converter.ConverterFragment;
 import com.example.coinloft.fragment.ExchangeRatesFragment;
 import com.example.coinloft.fragment.WalletsFragment;
-import com.example.coinloft.vm.MainViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;

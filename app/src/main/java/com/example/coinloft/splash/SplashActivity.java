@@ -1,4 +1,4 @@
-package com.example.coinloft.activity;
+package com.example.coinloft.splash;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.coinloft.R;
+import com.example.coinloft.main.MainActivity;
 import com.example.coinloft.util.Settings;
+import com.example.coinloft.welcome.WelcomeActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
