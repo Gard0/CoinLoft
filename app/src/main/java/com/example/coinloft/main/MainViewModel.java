@@ -23,7 +23,7 @@ public class MainViewModel extends ViewModel {
         mTitle.postValue(title);
     }
 
-    public void submitSelectedId(int id) {
+    void submitSelectedId(int id) {
         if (!Objects.equals(id, mSelectedId.getValue())) {
             mSelectedId.postValue(id);
         }
