@@ -7,21 +7,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.viewpager.widget.PagerAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coinloft.R;
 
-import java.util.Objects;
 
-
-public class WelcomePagerAdapter extends PagerAdapter {
+public class WelcomePagerAdapter extends RecyclerView.Adapter<WelcomePagerAdapter.ViewHolder> {
 
     private static final int[] IMAGES = {
             R.drawable.welcome_1_screen_img,
             R.drawable.welcome_2_screen_img,
             R.drawable.welcome_3_screen_img
     };
-    private static final int[] TITLE = {
+    private static final int[] TITLES = {
             R.string.welcome_page_1_title,
             R.string.welcome_page_2_title,
             R.string.welcome_page_1_title
@@ -31,40 +29,47 @@ public class WelcomePagerAdapter extends PagerAdapter {
             R.string.welcome_page_2_subtitle,
             R.string.welcome_page_3_subtitle
     };
-    private final LayoutInflater mInflater;
-
-    public WelcomePagerAdapter(@NonNull LayoutInflater inflater) {
-        mInflater = Objects.requireNonNull(inflater);
-    }
+    private LayoutInflater mInflater;
 
     @Override
-    public int getCount() {
+    public int getItemCount() {
         return IMAGES.length;
     }
 
     @NonNull
     @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        final View view = mInflater.inflate(R.layout.welcome_page, container, false);
-        container.addView(view, new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-        ));
-        view.<ImageView>findViewById(R.id.image).setImageResource(IMAGES[position]);
-        view.<TextView>findViewById(R.id.title).setText(TITLE[position]);
-        view.<TextView>findViewById(R.id.subtitle).setText(SUBTITLES[position]);
-        return view;
-    }
-
-
-    @Override
-    public void destroyItem(@NonNull ViewGroup container,
-                            int position, @NonNull Object object) {
-        container.removeView((View) object);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(mInflater.inflate(R.layout.welcome_page, parent, false));
     }
 
     @Override
-    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return Objects.equals(view, object);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.mImage.setImageResource(IMAGES[position]);
+        holder.mTitle.setText(TITLES[position]);
+        holder.mSubtitle.setText(SUBTITLES[position]);
     }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mInflater = LayoutInflater.from(recyclerView.getContext());
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+
+        private final ImageView mImage;
+
+        private final TextView mTitle;
+
+        private final TextView mSubtitle;
+
+        ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            mImage = itemView.findViewById(R.id.image);
+            mTitle = itemView.findViewById(R.id.title);
+            mSubtitle = itemView.findViewById(R.id.subtitle);
+        }
+
+    }
+
 }
