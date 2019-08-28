@@ -1,4 +1,4 @@
-package com.example.coinloft.vm;
+package com.example.coinloft.main;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.coinloft.R;
 
+import java.util.Objects;
+
 
 public class MainViewModel extends ViewModel {
 
@@ -14,24 +16,26 @@ public class MainViewModel extends ViewModel {
     private final MutableLiveData<Integer> mSelectedId = new MutableLiveData<>();
 
     public MainViewModel() {
-        mSelectedId.postValue(R.id.wallets);
+        mSelectedId.postValue(R.id.rates);
     }
 
     public void submitTitle(String title) {
         mTitle.postValue(title);
     }
 
-    public void submitSelectedId(int id) {
-        mSelectedId.postValue(id);
+    void submitSelectedId(int id) {
+        if (!Objects.equals(id, mSelectedId.getValue())) {
+            mSelectedId.postValue(id);
+        }
     }
 
     @Nullable
-    public LiveData<String> title() {
+    LiveData<String> title() {
         return mTitle;
     }
 
     @Nullable
-    public LiveData<Integer> selectedId() {
+    LiveData<Integer> selectedId() {
         return mSelectedId;
     }
 

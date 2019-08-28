@@ -1,4 +1,4 @@
-package com.example.coinloft.activity;
+package com.example.coinloft.welcome;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coinloft.R;
-import com.example.coinloft.adapter.WelcomePagerAdapter;
+import com.example.coinloft.main.MainActivity;
 import com.example.coinloft.util.Settings;
 
 import org.jetbrains.annotations.Nullable;

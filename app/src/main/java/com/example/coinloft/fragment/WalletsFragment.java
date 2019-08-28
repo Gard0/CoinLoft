@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.coinloft.R;
-import com.example.coinloft.vm.MainViewModel;
+import com.example.coinloft.main.MainViewModel;
 
 public class WalletsFragment extends Fragment {
     private MainViewModel mMainViewModel;

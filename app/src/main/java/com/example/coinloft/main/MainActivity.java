@@ -1,4 +1,4 @@
-package com.example.coinloft.activity;
+package com.example.coinloft.main;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -9,10 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.coinloft.R;
-import com.example.coinloft.fragment.ConverterFragment;
+import com.example.coinloft.converter.ConverterFragment;
 import com.example.coinloft.fragment.ExchangeRatesFragment;
 import com.example.coinloft.fragment.WalletsFragment;
-import com.example.coinloft.vm.MainViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final MainViewModel viewModel = ViewModelProviders
+        MainViewModel viewModel = ViewModelProviders
                 .of(this)
                 .get(MainViewModel.class);
 
@@ -45,12 +44,12 @@ public class MainActivity extends AppCompatActivity {
             viewModel.submitSelectedId(menuItem.getItemId());
             return true;
         });
-        viewModel.title().observe(this, title -> Objects
+        Objects.requireNonNull(viewModel.title()).observe(this, title -> Objects
                 .requireNonNull(getSupportActionBar())
                 .setTitle(title));
 
-        viewModel.selectedId().observe(this, this::replaceFragment);
-        viewModel.selectedId().observe(this, navigationView::setSelectedItemId);
+        Objects.requireNonNull(viewModel.selectedId()).observe(this, this::replaceFragment);
+        Objects.requireNonNull(viewModel.selectedId()).observe(this, navigationView::setSelectedItemId);
 
 
     }
