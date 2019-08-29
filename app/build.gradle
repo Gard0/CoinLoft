@@ -55,4 +55,5 @@ dependencies {
 
     implementation "com.google.auto.value:auto-value-annotations:1.6.5"
     annotationProcessor "com.google.auto.value:auto-value:1.6.5"
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 }
