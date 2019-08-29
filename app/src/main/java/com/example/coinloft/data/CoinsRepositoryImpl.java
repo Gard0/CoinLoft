@@ -2,7 +2,7 @@ package com.example.coinloft.data;
 
 import androidx.annotation.NonNull;
 
-import com.example.coinloft.BuildConfig;
+import com.squareup.picasso.BuildConfig;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -18,6 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 class CoinsRepositoryImpl implements CoinsRepository {
 
     private static volatile CoinsRepositoryImpl sInstance;
+
     private final CoinMarketCapApi mApi;
 
     @NonNull
@@ -34,7 +35,6 @@ class CoinsRepositoryImpl implements CoinsRepository {
         return instance;
     }
 
-
     private CoinsRepositoryImpl() {
         final OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(new CoinMarketCapApi.AddKeyInterceptor());
@@ -46,12 +46,11 @@ class CoinsRepositoryImpl implements CoinsRepository {
         }
         final Retrofit retrofit = new Retrofit.Builder()
                 .client(httpClient.build())
-                .baseUrl(BuildConfig.CMC_API_ENDPOINT)
+                .baseUrl(com.example.coinloft.BuildConfig.CMC_API_ENDPOINT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         mApi = retrofit.create(CoinMarketCapApi.class);
     }
-
 
     @Override
     public void listings(@NonNull String convert,

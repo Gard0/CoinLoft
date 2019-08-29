@@ -10,19 +10,19 @@ import java.util.Map;
 public class Coin {
 
     @SerializedName("id")
-    private
+
     int id;
 
     @SerializedName("name")
-    private
+
     String name;
 
     @SerializedName("symbol")
-    private
+
     String symbol;
 
     @SerializedName("quote")
-    private
+
     Map<String, Quote> quotes;
 
     public int getId() {
