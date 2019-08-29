@@ -28,4 +28,5 @@
     <color name="dark_seven">#10101a</color>
     <color name="blue_grey">#9c9eb9</color>
 
+    <color name="dark_overlay">#2b000000</color>
 </resources>
