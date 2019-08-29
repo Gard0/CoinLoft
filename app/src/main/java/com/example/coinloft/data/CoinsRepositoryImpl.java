@@ -18,8 +18,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
 class CoinsRepositoryImpl implements CoinsRepository {
 
     private static volatile CoinsRepositoryImpl sInstance;
-
     private final CoinMarketCapApi mApi;
+
+    @NonNull
+    static CoinsRepositoryImpl get() {
+        CoinsRepositoryImpl instance = sInstance;
+        if (instance == null) {
+            synchronized (CoinsRepositoryImpl.class) {
+                instance = sInstance;
+                if (instance == null) {
+                    instance = sInstance = new CoinsRepositoryImpl();
+                }
+            }
+        }
+        return instance;
+    }
+
 
     private CoinsRepositoryImpl() {
         final OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -38,19 +52,6 @@ class CoinsRepositoryImpl implements CoinsRepository {
         mApi = retrofit.create(CoinMarketCapApi.class);
     }
 
-    @NonNull
-    static CoinsRepositoryImpl get() {
-        CoinsRepositoryImpl instance = sInstance;
-        if (instance == null) {
-            synchronized (CoinsRepositoryImpl.class) {
-                instance = sInstance;
-                if (instance == null) {
-                    instance = sInstance = new CoinsRepositoryImpl();
-                }
-            }
-        }
-        return instance;
-    }
 
     @Override
     public void listings(@NonNull String convert,
