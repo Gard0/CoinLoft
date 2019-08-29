@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name" translatable="false">CoinLoft</string>
     <string name="start">Начать работу</string>
 
@@ -9,12 +9,7 @@
     <string name="welcome_page_2_subtitle">Следи за курсом валют и вовремя реагируй на изменения динамики цены.</string>
     <string name="welcome_page_3_title">Конвертер валют</string>
     <string name="welcome_page_3_subtitle">знай сколько эфира в одном биткоине.</string>
-    <string name="wallets" tools:ignore="DuplicateDefinition">Wallets</string>
-    <string name="rates" tools:ignore="DuplicateDefinition">Rates</string>
-    <string name="converter" tools:ignore="DuplicateDefinition">Converter</string>
-    <string name="wallets" tools:ignore="DuplicateDefinition">Кошельки</string>
-    <string name="rates" tools:ignore="DuplicateDefinition">Курс</string>
-    <string name="converter" tools:ignore="DuplicateDefinition">Конвертер</string>
+
 
     <string name="currency_chooser">Выбор валюты</string>
 

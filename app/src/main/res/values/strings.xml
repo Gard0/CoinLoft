@@ -13,9 +13,6 @@
     <string name="rates" tools:ignore="DuplicateDefinition">Rates</string>
     <string name="converter" tools:ignore="DuplicateDefinition">Converter</string>
     <string name="add" tools:ignore="DuplicateDefinition">Add</string>
-    <string name="wallets" tools:ignore="DuplicateDefinition">Кошельки</string>
-    <string name="rates" tools:ignore="DuplicateDefinition">Курс</string>
-    <string name="converter" tools:ignore="DuplicateDefinition">Конвертер</string>
 
     <string name="currency_chooser">Выбор валюты</string>
 
