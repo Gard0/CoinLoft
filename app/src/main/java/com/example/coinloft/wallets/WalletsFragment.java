@@ -1,4 +1,4 @@
-package com.example.coinloft.fragment;
+package com.example.coinloft.wallets;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
