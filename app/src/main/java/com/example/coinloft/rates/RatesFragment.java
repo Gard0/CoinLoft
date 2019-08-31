@@ -41,7 +41,6 @@ public class RatesFragment extends Fragment {
                 .of(this, new RatesViewModel.Factory(requireContext()))
                 .get(RatesViewModel.class);
         mRatesAdapter = new RatesAdapter();
-
     }
 
     @Nullable
@@ -62,6 +61,8 @@ public class RatesFragment extends Fragment {
 
         final SwipeRefreshLayout refresher = view.findViewById(R.id.refresher);
         refresher.setOnRefreshListener(mRatesViewModel::refresh);
+        mRatesViewModel.dataSet().observe(this, mRatesAdapter::submitList);
+        mRatesViewModel.onTheFly().observe(this, refresher::setRefreshing);
 
         mRatesViewModel.error().observe(this, error ->
                 Snackbar.make(view, error.getMessage(), Snackbar.LENGTH_SHORT).show());

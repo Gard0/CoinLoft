@@ -2,10 +2,10 @@ package com.example.coinloft.data;
 
 import androidx.annotation.NonNull;
 
-import com.squareup.picasso.BuildConfig;
+import com.example.coinloft.BuildConfig;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.function.Consumer;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -35,6 +35,7 @@ class CoinsRepositoryImpl implements CoinsRepository {
         return instance;
     }
 
+
     private CoinsRepositoryImpl() {
         final OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(new CoinMarketCapApi.AddKeyInterceptor());
@@ -46,7 +47,7 @@ class CoinsRepositoryImpl implements CoinsRepository {
         }
         final Retrofit retrofit = new Retrofit.Builder()
                 .client(httpClient.build())
-                .baseUrl(com.example.coinloft.BuildConfig.CMC_API_ENDPOINT)
+                .baseUrl(BuildConfig.CMC_API_ENDPOINT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         mApi = retrofit.create(CoinMarketCapApi.class);
@@ -54,22 +55,22 @@ class CoinsRepositoryImpl implements CoinsRepository {
 
     @Override
     public void listings(@NonNull String convert,
-                         @NonNull Consumer<List<Coin>> onSuccess,
-                         @NonNull Consumer<Throwable> onError) {
+                         @NonNull com.example.coinloft.util.Consumer<List<Coin>> onSuccess,
+                         @NonNull com.example.coinloft.util.Consumer<Throwable> onError) {
         mApi.listings(convert).enqueue(new Callback<Listings>() {
             @Override
             public void onResponse(Call<Listings> call, Response<Listings> response) {
                 final Listings listings = response.body();
                 if (listings != null && listings.data != null) {
-//                    onSuccess.apply(Collections.unmodifiableList(listings.data));
+                    onSuccess.apply(Collections.unmodifiableList(listings.data));
                 } else {
-//                    onSuccess.apply(Collections.emptyList());
+                    onSuccess.apply(Collections.emptyList());
                 }
             }
 
             @Override
             public void onFailure(Call<Listings> call, Throwable t) {
-//                onError.apply(t);
+                onError.apply(t);
             }
         });
     }
