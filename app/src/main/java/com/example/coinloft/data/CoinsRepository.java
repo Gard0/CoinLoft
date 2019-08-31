@@ -2,10 +2,12 @@ package com.example.coinloft.data;
 
 import androidx.annotation.NonNull;
 
+import com.example.coinloft.util.Consumer;
+
 import java.util.List;
-import java.util.function.Consumer;
 
 public interface CoinsRepository {
+
     @NonNull
     static CoinsRepository get() {
         return CoinsRepositoryImpl.get();
@@ -14,4 +16,5 @@ public interface CoinsRepository {
     void listings(@NonNull String convert,
                   @NonNull Consumer<List<Coin>> onSuccess,
                   @NonNull Consumer<Throwable> onError);
+
 }

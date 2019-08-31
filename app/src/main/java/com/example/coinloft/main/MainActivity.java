@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.coinloft.R;
 import com.example.coinloft.converter.ConverterFragment;
-import com.example.coinloft.fragment.ExchangeRatesFragment;
-import com.example.coinloft.fragment.WalletsFragment;
+import com.example.coinloft.rates.RatesFragment;
+import com.example.coinloft.wallets.WalletsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     static {
         FRAGMENTS = new SparseArrayCompat<>();
         FRAGMENTS.put(R.id.wallets, WalletsFragment::new);
-        FRAGMENTS.put(R.id.rates, ExchangeRatesFragment::new);
+        FRAGMENTS.put(R.id.rates, RatesFragment::new);
         FRAGMENTS.put(R.id.converter, ConverterFragment::new);
 
     }

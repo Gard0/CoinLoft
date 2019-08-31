@@ -1,16 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">CoinLoft</string>
-    <string name="start">Start Working</string>
+    <string name="start">Начать работу</string>
 
-    <string name="welcome_page_1_title">Buying and Selling</string>
-    <string name="welcome_page_1_subtitle">Buy when it is cheap and sell when it is expensive.</string>
-    <string name="welcome_page_2_title">Cryptocurrency coefficient</string>
-    <string name="welcome_page_2_subtitle">Follow the exchange rate and respond in time to changes in price dynamics.</string>
-    <string name="welcome_page_3_title">Currency Converter</string>
-    <string name="welcome_page_3_subtitle">Find out how much ether is in one bitcoin.</string>
-    <string name="wallets">Wallets</string>
-    <string name="rates">Rates</string>
-    <string name="converter">Converter</string>
-    <string name="add">Add</string>
+    <string name="welcome_page_1_title">Покупка и продажа</string>
+    <string name="welcome_page_1_subtitle">Покупай когда дешево, продавай когда дорого.</string>
+    <string name="welcome_page_2_title">Курс криптовалют</string>
+    <string name="welcome_page_2_subtitle">Следи за курсом валют и вовремя реагируй на изменения динамики цены.</string>
+    <string name="welcome_page_3_title">Конвертер валют</string>
+    <string name="welcome_page_3_subtitle">знай сколько эфира в одном биткоине.</string>
+    <string name="wallets" tools:ignore="DuplicateDefinition">Wallets</string>
+    <string name="rates" tools:ignore="DuplicateDefinition">Rates</string>
+    <string name="converter" tools:ignore="DuplicateDefinition">Converter</string>
+    <string name="add" tools:ignore="DuplicateDefinition">Add</string>
+
+    <string name="currency_chooser">Выбор валюты</string>
+
+    <string-array name="currencies">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>RUB</item>
+    </string-array>
+
+    <string-array name="currency_symbols">
+        <item>$</item>
+        <item>€</item>
+        <item>₽</item>
+    </string-array>
+
+    <string-array name="currency_names">
+        <item>Доллар</item>
+        <item>Евро</item>
+        <item>Рубль</item>
+    </string-array>
 </resources>
+
