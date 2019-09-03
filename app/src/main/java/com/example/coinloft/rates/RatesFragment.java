@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,27 +21,38 @@ import com.example.coinloft.R;
 import com.example.coinloft.main.MainViewModel;
 import com.google.android.material.snackbar.Snackbar;
 
+import javax.inject.Inject;
+
 public class RatesFragment extends Fragment {
+
+    @Inject
+    ViewModelProvider.Factory mVmFactory;
+
+    @Inject
+    RatesAdapter mRatesAdapter;
+
+    private RecyclerView mRecyclerView;
 
     private MainViewModel mMainViewModel;
 
     private RatesViewModel mRatesViewModel;
 
-    private RatesAdapter mRatesAdapter;
-
-    private RecyclerView mRecyclerView;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        DaggerRatesComponent.builder()
+                .fragment(this)
+                .build()
+                .inject(this);
+
         mMainViewModel = ViewModelProviders
-                .of(requireActivity())
+                .of(requireActivity(), mVmFactory)
                 .get(MainViewModel.class);
+
         mRatesViewModel = ViewModelProviders
-                .of(this, new RatesViewModel.Factory(requireContext()))
+                .of(this, mVmFactory)
                 .get(RatesViewModel.class);
-        mRatesAdapter = new RatesAdapter();
     }
 
     @Nullable
@@ -54,6 +66,7 @@ public class RatesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mMainViewModel.submitTitle(getString(R.string.rates));
+
         mRecyclerView = view.findViewById(R.id.recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         mRecyclerView.swapAdapter(mRatesAdapter, false);
@@ -61,12 +74,13 @@ public class RatesFragment extends Fragment {
 
         final SwipeRefreshLayout refresher = view.findViewById(R.id.refresher);
         refresher.setOnRefreshListener(mRatesViewModel::refresh);
-        mRatesViewModel.dataSet().observe(this, mRatesAdapter::submitList);
-        mRatesViewModel.onTheFly().observe(this, refresher::setRefreshing);
 
         mRatesViewModel.error().observe(this, error ->
                 Snackbar.make(view, error.getMessage(), Snackbar.LENGTH_SHORT).show());
 
+        mRatesViewModel.dataSet().observe(this, mRatesAdapter::submitList);
+
+        mRatesViewModel.onTheFly().observe(this, refresher::setRefreshing);
     }
 
     @Override

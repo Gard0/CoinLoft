@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
@@ -19,12 +20,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.coinloft.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
 import java.util.Objects;
+
+import javax.inject.Inject;
 
 class RatesAdapter extends ListAdapter<CoinRate, RatesAdapter.ViewHolder> {
 
     private LayoutInflater mInflater;
 
+    @Inject
     RatesAdapter() {
         super(new DiffUtil.ItemCallback<CoinRate>() {
             @Override
@@ -35,6 +40,12 @@ class RatesAdapter extends ListAdapter<CoinRate, RatesAdapter.ViewHolder> {
             @Override
             public boolean areContentsTheSame(@NonNull CoinRate oldItem, @NonNull CoinRate newItem) {
                 return Objects.equals(oldItem, newItem);
+            }
+
+            @Nullable
+            @Override
+            public Object getChangePayload(@NonNull CoinRate oldItem, @NonNull CoinRate newItem) {
+                return newItem;
             }
         });
         setHasStableIds(true);
@@ -58,6 +69,26 @@ class RatesAdapter extends ListAdapter<CoinRate, RatesAdapter.ViewHolder> {
         Picasso.get().load(rate.imageUrl()).into(holder.mLogo);
 
         holder.mSymbol.setText(rate.symbol());
+        onBindCoinRate(holder, rate, position);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull List<Object> payloads) {
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position);
+        } else {
+            final CoinRate payload = (CoinRate) payloads.get(0);
+            onBindCoinRate(holder, payload, position);
+        }
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mInflater = LayoutInflater.from(recyclerView.getContext());
+    }
+
+    private void onBindCoinRate(@NonNull ViewHolder holder, @NonNull CoinRate rate, int position) {
         holder.mPrice.setText(rate.price());
         holder.mChange.setText(rate.change24());
 
@@ -79,12 +110,6 @@ class RatesAdapter extends ListAdapter<CoinRate, RatesAdapter.ViewHolder> {
         } else {
             holder.itemView.setBackgroundResource(R.color.dark_three);
         }
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        mInflater = LayoutInflater.from(recyclerView.getContext());
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
