@@ -1,4 +1,5 @@
 package com.example.coinloft.data;
+
 import androidx.annotation.NonNull;
 
 import com.example.coinloft.util.Consumer;

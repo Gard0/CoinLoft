@@ -6,13 +6,21 @@ import com.example.coinloft.BuildConfig;
 
 import java.util.Locale;
 
-public class ImgUrlFormatImpl implements ImgUrlFormat {
+import javax.inject.Inject;
+
+import dagger.Reusable;
+
+@Reusable
+class ImgUrlFormatImpl implements ImgUrlFormat {
+
+    @Inject
+    ImgUrlFormatImpl() {
+    }
 
     @NonNull
     @Override
     public String format(int id) {
-        return String.format(Locale.US, "%scoins/64x64/%d.png",
-                BuildConfig.CMC_IMG_ENDPOINT, id);
+        return String.format(Locale.US, "%scoins/64x64/%d.png", BuildConfig.CMC_IMG_ENDPOINT, id);
     }
 
 }

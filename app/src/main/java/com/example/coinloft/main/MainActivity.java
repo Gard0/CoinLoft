@@ -1,67 +1,54 @@
 package com.example.coinloft.main;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.collection.SparseArrayCompat;
-import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.coinloft.R;
-import com.example.coinloft.converter.ConverterFragment;
-import com.example.coinloft.rates.RatesFragment;
-import com.example.coinloft.wallets.WalletsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
-import java.util.function.Supplier;
+
+import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity {
-    private static final SparseArrayCompat<Supplier<Fragment>> FRAGMENTS;
 
-    static {
-        FRAGMENTS = new SparseArrayCompat<>();
-        FRAGMENTS.put(R.id.wallets, WalletsFragment::new);
-        FRAGMENTS.put(R.id.rates, RatesFragment::new);
-        FRAGMENTS.put(R.id.converter, ConverterFragment::new);
+    @Inject
+    MainNavigator mNavigator;
 
-    }
+    @Inject
+    ViewModelProvider.Factory mVmFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DaggerMainComponent.builder()
+                .activity(this)
+                .build()
+                .inject(this);
+
         setContentView(R.layout.activity_main);
 
-        MainViewModel viewModel = ViewModelProviders
-                .of(this)
+        final MainViewModel viewModel = ViewModelProviders
+                .of(this, mVmFactory)
                 .get(MainViewModel.class);
 
         setSupportActionBar(findViewById(R.id.toolbar));
 
-        final BottomNavigationView navigationView = findViewById(R.id.bottom_nav);
-        navigationView.setOnNavigationItemSelectedListener(menuItem -> {
+        final BottomNavigationView navView = findViewById(R.id.bottom_nav);
+        navView.setOnNavigationItemSelectedListener(menuItem -> {
             viewModel.submitSelectedId(menuItem.getItemId());
             return true;
         });
-        Objects.requireNonNull(viewModel.title()).observe(this, title -> Objects
+
+        viewModel.title().observe(this, title -> Objects
                 .requireNonNull(getSupportActionBar())
                 .setTitle(title));
 
-        Objects.requireNonNull(viewModel.selectedId()).observe(this, this::replaceFragment);
-        Objects.requireNonNull(viewModel.selectedId()).observe(this, navigationView::setSelectedItemId);
-
-
+        viewModel.selectedId().observe(this, mNavigator::navigateTo);
+        viewModel.selectedId().observe(this, navView::setSelectedItemId);
     }
 
-    @SuppressLint("NewApi")
-    private void replaceFragment(int itemId) {
-        final Supplier<Fragment> factory = FRAGMENTS.get(itemId);
-        if (factory != null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_host, factory.get())
-                    .commit();
-        }
-    }
 }
