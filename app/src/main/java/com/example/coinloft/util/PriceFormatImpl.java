@@ -1,29 +1,35 @@
 package com.example.coinloft.util;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
-import androidx.core.os.ConfigurationCompat;
-import androidx.core.os.LocaleListCompat;
+import androidx.core.util.Pair;
+
+import com.example.coinloft.data.Currencies;
 
 import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.Locale;
+import java.util.Objects;
 
-public class PriceFormatImpl implements PriceFormat {
+import javax.inject.Inject;
 
-    private final Locale mLocale;
+import dagger.Reusable;
 
-    public PriceFormatImpl(@NonNull Context context) {
-        final LocaleListCompat locales = ConfigurationCompat
-                .getLocales(context.getResources()
-                        .getConfiguration());
-        mLocale = locales.get(0);
+@Reusable
+class PriceFormatImpl implements PriceFormat {
+
+    private Currencies mCurrencies;
+
+    @Inject
+    PriceFormatImpl(Currencies currencies) {
+        mCurrencies = currencies;
     }
 
     @NonNull
     @Override
     public String format(double value) {
-        return NumberFormat.getCurrencyInstance(mLocale).format(value);
+        final Pair<Currency, Locale> pair = mCurrencies.getCurrent();
+        final Locale locale = Objects.requireNonNull(pair.second);
+        return NumberFormat.getCurrencyInstance(locale).format(value);
     }
 
 }

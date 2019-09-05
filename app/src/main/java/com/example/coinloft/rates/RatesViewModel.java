@@ -1,68 +1,48 @@
 package com.example.coinloft.rates;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.coinloft.data.Coin;
 import com.example.coinloft.data.CoinsRepository;
-import com.example.coinloft.data.Quote;
-import com.example.coinloft.util.ChangeFormat;
-import com.example.coinloft.util.ChangeFormatImpl;
-import com.example.coinloft.util.ImgUrlFormat;
-import com.example.coinloft.util.ImgUrlFormatImpl;
-import com.example.coinloft.util.PriceFormat;
-import com.example.coinloft.util.PriceFormatImpl;
+import com.example.coinloft.data.Currencies;
+import com.example.coinloft.util.Function;
 
-import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+
+import javax.inject.Inject;
 
 class RatesViewModel extends ViewModel {
 
     private final CoinsRepository mRepository;
-    private final PriceFormat mPriceFormat;
-    private final ChangeFormat mChangeFormat;
-    private final ImgUrlFormat mImgUrlFormat;
 
+    private final Function<List<Coin>, List<CoinRate>> mRatesMapper;
     private final MutableLiveData<List<CoinRate>> mDataSet = new MutableLiveData<>();
-
     private final MutableLiveData<Boolean> mOnTheFly = new MutableLiveData<>();
-
     private final MutableLiveData<Throwable> mError = new MutableLiveData<>();
+    private final Currencies mCurrencies;
 
-    private RatesViewModel(@NonNull CoinsRepository repository,
-                           @NonNull PriceFormat priceFormat,
-                           @NonNull ChangeFormat changeFormat,
-                           @NonNull ImgUrlFormat imgUrlFormat) {
+    @Inject
+    RatesViewModel(CoinsRepository repository,
+                   Function<List<Coin>, List<CoinRate>> ratesMapper,
+                   Currencies currencies) {
         mRepository = repository;
-        mPriceFormat = priceFormat;
-        mChangeFormat = changeFormat;
-        mImgUrlFormat = imgUrlFormat;
+        mRatesMapper = ratesMapper;
+        mCurrencies = currencies;
         refresh();
     }
 
     void refresh() {
         mOnTheFly.postValue(true);
-        mRepository.listings("USD", coins -> {
-            final List<CoinRate> rates = new ArrayList<>(coins.size());
-            for (final Coin coin : coins) {
-                final CoinRate.Builder builder = CoinRate.builder()
-                        .id(coin.getId())
-                        .symbol(coin.getSymbol())
-                        .imageUrl(mImgUrlFormat.format(coin.getId()));
-                final Quote quote = coin.getQuotes().get("USD");
-                if (quote != null) {
-                    builder.price(mPriceFormat.format(quote.getPrice()));
-                    builder.change24(mChangeFormat.format(quote.getChange24h()));
-                    builder.isChange24Negative(quote.getChange24h() < 0d);
-                }
-                rates.add(builder.build());
-            }
-            mDataSet.postValue(rates);
+        final Pair<Currency, Locale> pair = mCurrencies.getCurrent();
+        mRepository.listings(Objects.requireNonNull(pair.first).getCurrencyCode(), coins -> {
+            mDataSet.postValue(mRatesMapper.apply(coins));
             mOnTheFly.postValue(false);
         }, error -> {
             mError.postValue(error);
@@ -83,28 +63,6 @@ class RatesViewModel extends ViewModel {
     @NonNull
     LiveData<Throwable> error() {
         return mError;
-    }
-
-    static class Factory implements ViewModelProvider.Factory {
-
-        private Context mContext;
-
-        Factory(@NonNull Context context) {
-            mContext = context;
-        }
-
-        @NonNull
-        @Override
-        @SuppressWarnings("unchecked")
-        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            return (T) new RatesViewModel(
-                    CoinsRepository.get(),
-                    new PriceFormatImpl(mContext),
-                    new ChangeFormatImpl(mContext),
-                    new ImgUrlFormatImpl()
-            );
-        }
-
     }
 
 }

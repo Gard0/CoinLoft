@@ -45,6 +45,6 @@ abstract class CoinRate {
 
         abstract CoinRate build();
 
-
     }
+
 }

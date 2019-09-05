@@ -1,6 +1,6 @@
 package com.example.coinloft.main;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -9,13 +9,16 @@ import com.example.coinloft.R;
 
 import java.util.Objects;
 
+import javax.inject.Inject;
 
 public class MainViewModel extends ViewModel {
 
     private final MutableLiveData<String> mTitle = new MutableLiveData<>();
+
     private final MutableLiveData<Integer> mSelectedId = new MutableLiveData<>();
 
-    public MainViewModel() {
+    @Inject
+    MainViewModel() {
         mSelectedId.postValue(R.id.rates);
     }
 
@@ -29,12 +32,12 @@ public class MainViewModel extends ViewModel {
         }
     }
 
-    @Nullable
+    @NonNull
     LiveData<String> title() {
         return mTitle;
     }
 
-    @Nullable
+    @NonNull
     LiveData<Integer> selectedId() {
         return mSelectedId;
     }
@@ -43,4 +46,5 @@ public class MainViewModel extends ViewModel {
     protected void onCleared() {
         super.onCleared();
     }
+
 }

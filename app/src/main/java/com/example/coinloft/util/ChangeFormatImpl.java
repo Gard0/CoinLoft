@@ -1,28 +1,28 @@
 package com.example.coinloft.util;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
-import androidx.core.os.ConfigurationCompat;
-import androidx.core.os.LocaleListCompat;
 
 import java.util.Locale;
 
-public class ChangeFormatImpl implements ChangeFormat {
+import javax.inject.Inject;
+import javax.inject.Provider;
 
-    private final Locale mLocale;
+import dagger.Reusable;
 
-    public ChangeFormatImpl(@NonNull Context context) {
-        final LocaleListCompat locales = ConfigurationCompat
-                .getLocales(context.getResources()
-                        .getConfiguration());
-        mLocale = locales.get(0);
+@Reusable
+class ChangeFormatImpl implements ChangeFormat {
+
+    private final Provider<Locale> mLocale;
+
+    @Inject
+    ChangeFormatImpl(Provider<Locale> locale) {
+        mLocale = locale;
     }
 
     @NonNull
     @Override
     public String format(double value) {
-        return String.format(mLocale, "%.4f%%", value);
+        return String.format(mLocale.get(), "%.4f%%", value);
     }
 
 }
