@@ -16,6 +16,9 @@
 
     <string name="currency_chooser">Currency selection</string>
 
+    <string name="eur" translatable="false">Евро</string>
+    <string name="rub" translatable="false">Рубль</string>
+
     <string-array name="currencies">
         <item>USD</item>
         <item>EUR</item>
@@ -33,5 +36,6 @@
         <item>Евро</item>
         <item>Рубль</item>
     </string-array>
+    <string name="usd" translatable="false">Доллар</string>
 </resources>
 

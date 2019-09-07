@@ -1,6 +1,4 @@
 package com.example.coinloft.rates;
-
-
 import android.content.res.Resources;
 import android.graphics.Outline;
 import android.view.LayoutInflater;
@@ -18,6 +16,10 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coinloft.R;
+import com.example.coinloft.db.CoinEntity;
+import com.example.coinloft.util.ChangeFormat;
+import com.example.coinloft.util.ImgUrlFormat;
+import com.example.coinloft.util.PriceFormat;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -25,29 +27,38 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
-class RatesAdapter extends ListAdapter<CoinRate, RatesAdapter.ViewHolder> {
+class RatesAdapter extends ListAdapter<CoinEntity, RatesAdapter.ViewHolder> {
+
+    private final PriceFormat mPriceFormat;
+
+    private final ChangeFormat mChangeFormat;
+
+    private final ImgUrlFormat mImgUrlFormat;
 
     private LayoutInflater mInflater;
 
     @Inject
-    RatesAdapter() {
-        super(new DiffUtil.ItemCallback<CoinRate>() {
+    RatesAdapter(PriceFormat priceFormat, ChangeFormat changeFormat, ImgUrlFormat imgUrlFormat) {
+        super(new DiffUtil.ItemCallback<CoinEntity>() {
             @Override
-            public boolean areItemsTheSame(@NonNull CoinRate oldItem, @NonNull CoinRate newItem) {
+            public boolean areItemsTheSame(@NonNull CoinEntity oldItem, @NonNull CoinEntity newItem) {
                 return oldItem.id() == newItem.id();
             }
 
             @Override
-            public boolean areContentsTheSame(@NonNull CoinRate oldItem, @NonNull CoinRate newItem) {
+            public boolean areContentsTheSame(@NonNull CoinEntity oldItem, @NonNull CoinEntity newItem) {
                 return Objects.equals(oldItem, newItem);
             }
 
             @Nullable
             @Override
-            public Object getChangePayload(@NonNull CoinRate oldItem, @NonNull CoinRate newItem) {
+            public Object getChangePayload(@NonNull CoinEntity oldItem, @NonNull CoinEntity newItem) {
                 return newItem;
             }
         });
+        mPriceFormat = priceFormat;
+        mChangeFormat = changeFormat;
+        mImgUrlFormat = imgUrlFormat;
         setHasStableIds(true);
     }
 
@@ -64,12 +75,12 @@ class RatesAdapter extends ListAdapter<CoinRate, RatesAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final CoinRate rate = getItem(position);
+        final CoinEntity coin = getItem(position);
 
-        Picasso.get().load(rate.imageUrl()).into(holder.mLogo);
+        Picasso.get().load(mImgUrlFormat.format((int) coin.id())).into(holder.mLogo);
 
-        holder.mSymbol.setText(rate.symbol());
-        onBindCoinRate(holder, rate, position);
+        holder.mSymbol.setText(coin.symbol());
+        onBindCoinRate(holder, coin, position);
     }
 
     @Override
@@ -77,7 +88,7 @@ class RatesAdapter extends ListAdapter<CoinRate, RatesAdapter.ViewHolder> {
         if (payloads.isEmpty()) {
             onBindViewHolder(holder, position);
         } else {
-            final CoinRate payload = (CoinRate) payloads.get(0);
+            final CoinEntity payload = (CoinEntity) payloads.get(0);
             onBindCoinRate(holder, payload, position);
         }
     }
@@ -88,16 +99,16 @@ class RatesAdapter extends ListAdapter<CoinRate, RatesAdapter.ViewHolder> {
         mInflater = LayoutInflater.from(recyclerView.getContext());
     }
 
-    private void onBindCoinRate(@NonNull ViewHolder holder, @NonNull CoinRate rate, int position) {
-        holder.mPrice.setText(rate.price());
-        holder.mChange.setText(rate.change24());
+    private void onBindCoinRate(@NonNull ViewHolder holder, @NonNull CoinEntity coin, int position) {
+        holder.mPrice.setText(mPriceFormat.format(coin.price()));
+        holder.mChange.setText(mChangeFormat.format(coin.change24()));
 
         final Resources res = holder.itemView.getResources();
         final Resources.Theme theme = holder.itemView.getContext().getTheme();
 
         final int changeColor;
 
-        if (rate.isChange24Negative()) {
+        if (coin.change24() < 0) {
             changeColor = ResourcesCompat.getColor(res, R.color.colorNegative, theme);
         } else {
             changeColor = ResourcesCompat.getColor(res, R.color.colorPositive, theme);

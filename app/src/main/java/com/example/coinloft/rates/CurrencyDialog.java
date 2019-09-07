@@ -13,6 +13,8 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coinloft.R;
 
@@ -24,6 +26,9 @@ public class CurrencyDialog extends DialogFragment {
 
     @Inject
     ViewModelProvider.Factory mVmFactory;
+
+    @Inject
+    CurrenciesAdapter mAdapter;
 
     private RatesViewModel mRatesViewModel;
 
@@ -58,8 +63,22 @@ public class CurrencyDialog extends DialogFragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        final RecyclerView recyclerView = view.findViewById(R.id.recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClick((currency, position) -> {
+            mRatesViewModel.updateCurrency(currency);
+            dismissAllowingStateLoss();
+        });
+    }
+
+    @Override
+    public void onDestroyView() {
+        mAdapter.setOnItemClick(null);
+        super.onDestroyView();
     }
 
 }

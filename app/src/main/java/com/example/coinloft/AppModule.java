@@ -5,8 +5,13 @@ import android.content.Context;
 import android.content.res.Configuration;
 
 import androidx.core.os.ConfigurationCompat;
+import androidx.room.Room;
+
+import com.example.coinloft.db.LoftDb;
 
 import java.util.Locale;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -25,12 +30,10 @@ interface AppModule {
         return ConfigurationCompat.getLocales(configuration).get(0);
     }
 
-
-//     {
-//      Component(Application)
-//          -> Module(Application)
-//              -> Context
-//                  -> Locale
-//     }
+    @Provides
+    @Singleton
+    static LoftDb loftDb(Context context) {
+        return Room.databaseBuilder(context, LoftDb.class, "loft").build();
+    }
 
 }

@@ -1,53 +1,52 @@
 package com.example.coinloft.rates;
 
 import androidx.annotation.NonNull;
-import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.coinloft.data.Coin;
 import com.example.coinloft.data.CoinsRepository;
 import com.example.coinloft.data.Currencies;
-import com.example.coinloft.util.Function;
+import com.example.coinloft.data.Currency;
+import com.example.coinloft.db.CoinEntity;
 
-import java.util.Currency;
 import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
+import dagger.Reusable;
+
+@Reusable
 class RatesViewModel extends ViewModel {
 
     private final CoinsRepository mRepository;
 
-    private final Function<List<Coin>, List<CoinRate>> mRatesMapper;
-    private final MutableLiveData<List<CoinRate>> mDataSet = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> mOnTheFly = new MutableLiveData<>();
-    private final MutableLiveData<Throwable> mError = new MutableLiveData<>();
     private final Currencies mCurrencies;
+
+    private final LiveData<List<CoinEntity>> mDataSet;
+
+    private final MutableLiveData<Boolean> mOnTheFly = new MutableLiveData<>();
+
+    private final MutableLiveData<Throwable> mError = new MutableLiveData<>();
 
     @Inject
     RatesViewModel(CoinsRepository repository,
-                   Function<List<Coin>, List<CoinRate>> ratesMapper,
                    Currencies currencies) {
         mRepository = repository;
-        mRatesMapper = ratesMapper;
         mCurrencies = currencies;
+        mDataSet = mRepository.listings();
         refresh();
     }
 
     void refresh() {
         mOnTheFly.postValue(true);
-        final Pair<Currency, Locale> pair = mCurrencies.getCurrent();
-        mRepository.listings(Objects.requireNonNull(pair.first).getCurrencyCode(), coins -> {
-            mDataSet.postValue(mRatesMapper.apply(coins));
-            mOnTheFly.postValue(false);
-        }, error -> {
-            mError.postValue(error);
-            mOnTheFly.postValue(false);
-        });
+        final Currency currency = mCurrencies.getCurrent();
+        mRepository.refresh(currency.code(),
+                () -> mOnTheFly.postValue(false),
+                error -> {
+                    mError.postValue(error);
+                    mOnTheFly.postValue(false);
+                });
     }
 
     @NonNull
@@ -56,13 +55,18 @@ class RatesViewModel extends ViewModel {
     }
 
     @NonNull
-    LiveData<List<CoinRate>> dataSet() {
+    LiveData<List<CoinEntity>> dataSet() {
         return mDataSet;
     }
 
     @NonNull
     LiveData<Throwable> error() {
         return mError;
+    }
+
+    void updateCurrency(@NonNull Currency currency) {
+        mCurrencies.setCurrent(currency);
+        refresh();
     }
 
 }
