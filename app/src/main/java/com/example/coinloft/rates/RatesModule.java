@@ -4,13 +4,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 
 import com.example.coinloft.AppComponent;
-import com.example.coinloft.data.Coin;
 import com.example.coinloft.data.CoinsRepository;
 import com.example.coinloft.data.Currencies;
 import com.example.coinloft.main.MainViewModel;
-import com.example.coinloft.util.Function;
 
-import java.util.List;
 import java.util.Locale;
 
 import dagger.Binds;
@@ -43,9 +40,6 @@ interface RatesModule {
     static Locale locale(AppComponent appComponent) {
         return appComponent.locale().get();
     }
-
-    @Binds
-    Function<List<Coin>, List<CoinRate>> ratesMapper(RatesMapper impl);
 
     @Binds
     @IntoMap

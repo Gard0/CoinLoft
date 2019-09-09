@@ -26,7 +26,4 @@ public abstract class CoinEntity {
 
     public abstract double change24();
 
-    // coins: id | symbol | price | change24
-    //         1 |    BTC | 10000 | 6
-
 }

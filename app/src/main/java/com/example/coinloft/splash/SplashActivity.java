@@ -15,7 +15,7 @@ import com.example.coinloft.welcome.WelcomeActivity;
 public class SplashActivity extends AppCompatActivity {
 
 
-    private static final int DELAY_START_ACTIVITY = 2000;
+    private static final int DELAY_START_ACTIVITY = 1000;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,4 +31,5 @@ public class SplashActivity extends AppCompatActivity {
             }
         }, DELAY_START_ACTIVITY);
     }
+
 }

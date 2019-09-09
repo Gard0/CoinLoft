@@ -1,35 +1,40 @@
 package com.example.coinloft.util;
 
 import androidx.annotation.NonNull;
-import androidx.core.util.Pair;
 
 import com.example.coinloft.data.Currencies;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
-import java.util.Currency;
 import java.util.Locale;
-import java.util.Objects;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import dagger.Reusable;
-
 @Reusable
 class PriceFormatImpl implements PriceFormat {
 
-    private Currencies mCurrencies;
+    private final Currencies mCurrencies;
+
+    private final Provider<Locale> mLocale;
 
     @Inject
-    PriceFormatImpl(Currencies currencies) {
+    PriceFormatImpl(Currencies currencies, Provider<Locale> locale) {
         mCurrencies = currencies;
+        mLocale = locale;
     }
 
     @NonNull
     @Override
     public String format(double value) {
-        final Pair<Currency, Locale> pair = mCurrencies.getCurrent();
-        final Locale locale = Objects.requireNonNull(pair.second);
-        return NumberFormat.getCurrencyInstance(locale).format(value);
+        final NumberFormat format = NumberFormat.getCurrencyInstance(mLocale.get());
+        final DecimalFormat decimalFormat = (DecimalFormat) format;
+        final DecimalFormatSymbols symbols = decimalFormat.getDecimalFormatSymbols();
+        symbols.setCurrencySymbol(mCurrencies.getCurrent().sign());
+        decimalFormat.setDecimalFormatSymbols(symbols);
+        return format.format(value);
     }
 
 }
