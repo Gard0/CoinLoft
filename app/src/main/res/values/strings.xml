@@ -37,5 +37,6 @@
         <item>Рубль</item>
     </string-array>
     <string name="usd" translatable="false">Доллар</string>
+    <string name="sort" translatable="false">Сортировать</string>
 </resources>
 

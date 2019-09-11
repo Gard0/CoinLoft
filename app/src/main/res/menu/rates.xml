@@ -8,4 +8,10 @@
         android:title="@string/currency_chooser"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/sort"
+        android:icon="@drawable/ic_sort_24dp"
+        android:title="@string/sort"
+        app:showAsAction="always" />
+
 </menu>
