@@ -12,11 +12,11 @@ import androidx.appcompat.app.AppCompatDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coinloft.R;
+import com.example.coinloft.data.Currencies;
 
 import javax.inject.Inject;
 
@@ -30,8 +30,8 @@ public class CurrencyDialog extends DialogFragment {
     @Inject
     CurrenciesAdapter mAdapter;
 
-    private RatesViewModel mRatesViewModel;
-
+    @Inject
+    Currencies mCurrencies;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,9 +42,6 @@ public class CurrencyDialog extends DialogFragment {
                 .build()
                 .inject(this);
 
-        mRatesViewModel = ViewModelProviders
-                .of(parentFragment, mVmFactory)
-                .get(RatesViewModel.class);
     }
 
     @NonNull
@@ -70,7 +67,7 @@ public class CurrencyDialog extends DialogFragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClick((currency, position) -> {
-            mRatesViewModel.updateCurrency(currency);
+            mCurrencies.setDefault(currency);
             dismissAllowingStateLoss();
         });
     }

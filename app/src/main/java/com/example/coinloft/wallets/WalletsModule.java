@@ -1,11 +1,11 @@
-package com.example.coinloft.rates;
+package com.example.coinloft.wallets;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 
 import com.example.coinloft.AppComponent;
-import com.example.coinloft.data.CoinsRepository;
 import com.example.coinloft.data.Currencies;
+import com.example.coinloft.data.WalletsRepository;
 import com.example.coinloft.main.MainViewModel;
 import com.example.coinloft.rx.RxSchedulers;
 
@@ -19,7 +19,7 @@ import dagger.multibindings.ClassKey;
 import dagger.multibindings.IntoMap;
 
 @Module
-interface RatesModule {
+interface WalletsModule {
 
     @Provides
     @Reusable
@@ -28,8 +28,8 @@ interface RatesModule {
     }
 
     @Provides
-    static CoinsRepository coinsRepository(AppComponent appComponent) {
-        return appComponent.coinsRepository();
+    static WalletsRepository walletsRepository(AppComponent appComponent) {
+        return appComponent.walletsRepository();
     }
 
     @Provides
@@ -54,7 +54,7 @@ interface RatesModule {
 
     @Binds
     @IntoMap
-    @ClassKey(RatesViewModel.class)
-    ViewModel ratesViewModel(RatesViewModel impl);
+    @ClassKey(WalletsViewModel.class)
+    ViewModel ratesViewModel(WalletsViewModel impl);
 
 }

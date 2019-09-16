@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 
 import dagger.Reusable;
+
 @Reusable
 class PriceFormatImpl implements PriceFormat {
 
@@ -29,10 +30,15 @@ class PriceFormatImpl implements PriceFormat {
     @NonNull
     @Override
     public String format(double value) {
+        return format(value, mCurrencies.getCurrent().sign());
+    }
+
+    @Override
+    public String format(double value, String sign) {
         final NumberFormat format = NumberFormat.getCurrencyInstance(mLocale.get());
         final DecimalFormat decimalFormat = (DecimalFormat) format;
         final DecimalFormatSymbols symbols = decimalFormat.getDecimalFormatSymbols();
-        symbols.setCurrencySymbol(mCurrencies.getCurrent().sign());
+        symbols.setCurrencySymbol(sign);
         decimalFormat.setDecimalFormatSymbols(symbols);
         return format.format(value);
     }
