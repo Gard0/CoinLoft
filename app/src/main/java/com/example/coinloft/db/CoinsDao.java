@@ -12,7 +12,6 @@ import io.reactivex.Observable;
 @Dao
 public interface CoinsDao {
 
-
     @Query("SELECT * FROM coins ORDER BY price DESC")
     Observable<List<CoinEntity>> fetchAllCoins();
 

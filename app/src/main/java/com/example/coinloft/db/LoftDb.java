@@ -10,7 +10,7 @@ import androidx.room.RoomDatabase;
 }, views = {
         Wallet.View.class,
         Transaction.View.class
-}, version = 3)
+}, version = 5)
 public abstract class LoftDb extends RoomDatabase {
 
     public abstract CoinsDao coins();

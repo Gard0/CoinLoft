@@ -30,16 +30,14 @@ public abstract class Wallet implements StableId {
     public abstract long coinId();
 
     @AutoValue
-    @DatabaseView
-
-            (
-                    viewName = "wallets_view",
-                    value = "SELECT w.id, c.symbol, " +
-                            "w.balance AS balance1, " +
-                            "w.balance * c.price AS balance2, " +
-                            "w.coin_id as coinId " +
-                            "FROM wallets AS w INNER JOIN coins AS c ON w.coin_id=c.id"
-            )
+    @DatabaseView(
+            viewName = "wallets_view",
+            value = "SELECT w.id, c.symbol, " +
+                    "w.balance AS balance1, " +
+                    "w.balance * c.price AS balance2, " +
+                    "w.coin_id as coinId " +
+                    "FROM wallets AS w INNER JOIN coins AS c ON w.coin_id=c.id"
+    )
     public static abstract class View implements StableId {
 
         @NonNull
@@ -64,5 +62,6 @@ public abstract class Wallet implements StableId {
 
     }
 
-
+    public class Transaction {
+    }
 }
