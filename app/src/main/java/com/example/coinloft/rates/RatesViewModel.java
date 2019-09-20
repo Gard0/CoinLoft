@@ -1,20 +1,19 @@
 package com.example.coinloft.rates;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.coinloft.data.CoinsRepository;
 import com.example.coinloft.data.Currencies;
 import com.example.coinloft.data.Currency;
-import com.example.coinloft.db.CoinEntity;
-
-import java.util.List;
+import com.example.coinloft.rx.RxSchedulers;
 
 import javax.inject.Inject;
 
 import dagger.Reusable;
+import io.reactivex.Observable;
+import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.Subject;
 
 @Reusable
 class RatesViewModel extends ViewModel {
@@ -23,50 +22,40 @@ class RatesViewModel extends ViewModel {
 
     private final Currencies mCurrencies;
 
-    private final LiveData<List<CoinEntity>> mDataSet;
+    private final RxSchedulers mSchedulers;
 
-    private final MutableLiveData<Boolean> mOnTheFly = new MutableLiveData<>();
+    private final Subject<Boolean> mSourceOfTruth;
 
-    private final MutableLiveData<Throwable> mError = new MutableLiveData<>();
+    private final Observable<RatesUiState> mUiState;
 
     @Inject
     RatesViewModel(CoinsRepository repository,
-                   Currencies currencies) {
+                   Currencies currencies,
+                   RxSchedulers schedulers) {
         mRepository = repository;
         mCurrencies = currencies;
-        mDataSet = mRepository.listings();
-        refresh();
+        mSchedulers = schedulers;
+
+        mSourceOfTruth = BehaviorSubject.createDefault(true);
+
+        mUiState = mSourceOfTruth
+                .observeOn(schedulers.io())
+                .flatMap(refresh -> mCurrencies.current())
+                .map(Currency::code)
+                .flatMap(currencyCode -> mRepository
+                        .listings(currencyCode)
+                        .map(RatesUiState::success)
+                        .onErrorReturn(RatesUiState::failure)
+                        .startWith(RatesUiState.loading()))
+                .subscribeOn(schedulers.io());
     }
 
     void refresh() {
-        mOnTheFly.postValue(true);
-        final Currency currency = mCurrencies.getCurrent();
-        mRepository.refresh(currency.code(),
-                () -> mOnTheFly.postValue(false),
-                error -> {
-                    mError.postValue(error);
-                    mOnTheFly.postValue(false);
-                });
+        mSourceOfTruth.onNext(true);
     }
 
     @NonNull
-    LiveData<Boolean> onTheFly() {
-        return mOnTheFly;
+    Observable<RatesUiState> uiState() {
+        return mUiState.observeOn(mSchedulers.main());
     }
-
-    @NonNull
-    LiveData<List<CoinEntity>> dataSet() {
-        return mDataSet;
-    }
-
-    @NonNull
-    LiveData<Throwable> error() {
-        return mError;
-    }
-
-    void updateCurrency(@NonNull Currency currency) {
-        mCurrencies.setCurrent(currency);
-        refresh();
-    }
-
 }

@@ -6,7 +6,6 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -20,7 +19,6 @@
         app:layout_constraintGuide_end="256dp" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -67,7 +65,6 @@
         tools:ignore="ContentDescription" />
 
     <ImageView
-        android:id="@+id/inner_circle"
         android:layout_width="102dp"
         android:layout_height="102dp"
         android:src="@drawable/bg_splash_inner_circle"
@@ -79,7 +76,6 @@
 
 
     <TextView
-        android:id="@+id/label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

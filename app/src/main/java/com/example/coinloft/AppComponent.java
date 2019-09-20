@@ -8,6 +8,9 @@ import androidx.annotation.NonNull;
 import com.example.coinloft.data.CoinsRepository;
 import com.example.coinloft.data.Currencies;
 import com.example.coinloft.data.DataModule;
+import com.example.coinloft.data.WalletsRepository;
+import com.example.coinloft.rx.RxModule;
+import com.example.coinloft.rx.RxSchedulers;
 
 import java.util.Locale;
 
@@ -20,7 +23,8 @@ import dagger.Component;
 @Singleton
 @Component(modules = {
         AppModule.class,
-        DataModule.class
+        DataModule.class,
+        RxModule.class
 })
 public interface AppComponent {
 
@@ -37,7 +41,11 @@ public interface AppComponent {
 
     CoinsRepository coinsRepository();
 
+    WalletsRepository walletsRepository();
+
     Currencies currencies();
+
+    RxSchedulers schedulers();
 
     @Component.Factory
     interface Factory {
